@@ -14,6 +14,7 @@ public class Main {
 
         userService.saveUser("Ivan", "Ivanov", (byte) 18);
         userService.saveUser("Petr", "Petrov", (byte) 20);
+        userService.saveUser("Petr1", "Petrov1", (byte) 120);
         userService.saveUser("Sveta", "Svetikova", (byte) 22);
         userService.saveUser("Name", "LastName", (byte) 24);
 
@@ -22,8 +23,6 @@ public class Main {
         userService.dropUsersTable();
 
         Util.closeConnection(userService);
-
-        System.out.println(Util.getConnection() == Util.getConnection());
 
     }
 }
