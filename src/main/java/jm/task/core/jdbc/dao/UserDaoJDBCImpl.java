@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    private Connection connection = Util.getConnection();
+    private Connection connection = Util.connection;
 
     @Override
     public void createUsersTable() {
@@ -27,7 +27,8 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlCreate);
             preparedStatement.executeUpdate();
-            connection.commit();
+            preparedStatement.close();
+            //connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +42,8 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlDrop);
             preparedStatement.executeUpdate();
-            connection.commit();
+            preparedStatement.close();
+            //connection.commit();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -60,6 +62,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setByte(3, age);
 
             preparedStatement.executeUpdate();
+            preparedStatement.close();
             connection.commit();
             System.out.printf("User с именем %s добавлен в базу данных\n", name);
 
@@ -84,6 +87,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
 
             preparedStatement.executeUpdate();
+            preparedStatement.close();
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -113,6 +117,7 @@ public class UserDaoJDBCImpl implements UserDao {
                 ));
             }
             System.out.println(result);
+            preparedStatement.close();
             connection.commit();
             return result;
         } catch (SQLException e) {
@@ -130,6 +135,7 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.setAutoCommit(false);
 
             preparedStatement.executeUpdate();
+            preparedStatement.close();
             connection.commit();
         } catch (SQLException e) {
             try {

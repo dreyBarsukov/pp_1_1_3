@@ -14,10 +14,14 @@ public class Util {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
+    public static final Connection connection = getConnection();
+
+
+
     private Util() {
     }
 
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         try {
             Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             connection.setAutoCommit(false);
@@ -27,13 +31,14 @@ public class Util {
         }
     }
 
-    public static void closeConnection(UserService userService) {
-        UserServiceImpl userService1 = (UserServiceImpl) userService;
-        UserDaoJDBCImpl userDaoJDBC = (UserDaoJDBCImpl) userService1.getUserDaoJDBC();
-        try {
-            userDaoJDBC.getConnection().close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public static void closeConnection() {
+        if(connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 }
